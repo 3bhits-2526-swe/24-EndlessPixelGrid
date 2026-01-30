@@ -2,15 +2,22 @@ using UnityEngine;
 
 public class InputPixels : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    internal GameObject[,] displayGrid;
+    [SerializeField] GameObject[] inputPixels = new GameObject[7];
+
+    private void Start()
     {
-        
+        displayGrid = PixelGridSpawner.Instance.displayGrid;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.W)) inputPixels[0].GetComponent<PixelState>().Switch();
+        if (Input.GetKeyDown(KeyCode.A)) inputPixels[1].GetComponent<PixelState>().Switch();
+        if (Input.GetKeyDown(KeyCode.UpArrow)) inputPixels[2].GetComponent<PixelState>().Switch();
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) inputPixels[3].GetComponent<PixelState>().Switch();
+        if (Input.GetKeyDown(KeyCode.RightArrow)) inputPixels[4].GetComponent<PixelState>().Switch();
+        if (Input.GetKeyDown(KeyCode.DownArrow)) inputPixels[5].GetComponent<PixelState>().Switch();
+        if (Input.GetKeyDown(KeyCode.S)) inputPixels[6].GetComponent<PixelState>().Switch();
     }
 }

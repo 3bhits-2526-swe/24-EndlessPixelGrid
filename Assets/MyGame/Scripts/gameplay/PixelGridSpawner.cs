@@ -8,7 +8,7 @@ public class PixelGridSpawner : MonoBehaviour
     [SerializeField] private float gap = 5;
     [SerializeField] private float yStart = 5;
 
-    internal bool[][] displayGrid = new bool[7][];
+    internal GameObject[,] displayGrid;
 
     private int columns = 7;
     private int rows = 10;
@@ -16,6 +16,7 @@ public class PixelGridSpawner : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        displayGrid = new GameObject[columns, rows];
 
         RectTransform rt = pixelPrefab.GetComponent<RectTransform>();
         float cellWidth = rt.rect.width;
@@ -32,13 +33,14 @@ public class PixelGridSpawner : MonoBehaviour
             for (int j = 0; j < rows; j++)
             {
                 GameObject pixel = Instantiate(pixelPrefab, transform);
+                pixel.AddComponent<PixelState>();
                 RectTransform prt = pixel.GetComponent<RectTransform>();
 
                 float xPos = startX + (i * (cellWidth + gap));
                 float yPos = startY - (j * (cellHeight + gap));
 
                 prt.anchoredPosition = new Vector2(xPos, yPos);
-                displayGrid[i][j] = pixel;
+                displayGrid[i, j] = pixel;
             }
         }
     }
