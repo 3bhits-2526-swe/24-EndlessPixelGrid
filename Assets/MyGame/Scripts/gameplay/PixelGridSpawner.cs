@@ -5,6 +5,7 @@ public class PixelGridSpawner : MonoBehaviour
     [SerializeField] private GameObject pixelPrefab;
     [SerializeField] private float gap = 5;
     [SerializeField] private float yStart = 5;
+
     private int columns = 7;
     private int rows = 10;
 
@@ -25,13 +26,12 @@ public class PixelGridSpawner : MonoBehaviour
             for (int j = 0; j < rows; j++)
             {
                 GameObject pixel = Instantiate(pixelPrefab, transform);
-                RectTransform pixelRT = pixel.GetComponent<RectTransform>();
+                RectTransform prt = pixel.GetComponent<RectTransform>();
 
-                // Position relative to the parent center
                 float xPos = startX + (i * (cellWidth + gap));
                 float yPos = startY - (j * (cellHeight + gap));
 
-                pixelRT.anchoredPosition = new Vector2(xPos, yPos);
+                prt.anchoredPosition = new Vector2(xPos, yPos);
             }
         }
     }
