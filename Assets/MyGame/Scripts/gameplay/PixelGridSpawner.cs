@@ -2,15 +2,21 @@ using UnityEngine;
 
 public class PixelGridSpawner : MonoBehaviour
 {
+    public static PixelGridSpawner Instance { get; private set; }
+
     [SerializeField] private GameObject pixelPrefab;
     [SerializeField] private float gap = 5;
     [SerializeField] private float yStart = 5;
+
+    internal bool[][] displayGrid = new bool[7][];
 
     private int columns = 7;
     private int rows = 10;
 
     private void Awake()
     {
+        Instance = this;
+
         RectTransform rt = pixelPrefab.GetComponent<RectTransform>();
         float cellWidth = rt.rect.width;
         float cellHeight = rt.rect.height;
@@ -32,6 +38,7 @@ public class PixelGridSpawner : MonoBehaviour
                 float yPos = startY - (j * (cellHeight + gap));
 
                 prt.anchoredPosition = new Vector2(xPos, yPos);
+                displayGrid[i][j] = pixel;
             }
         }
     }
