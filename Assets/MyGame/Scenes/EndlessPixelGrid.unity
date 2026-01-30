@@ -200,7 +200,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -403,8 +403,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pixelPrefab: {fileID: 3119216651895748857, guid: 9eb5b886c1aecd14ab66e27b432bdac2, type: 3}
-  gap: 5
-  yStartPos: 325
+  columns: 7
+  rows: 10
+  gap: 2
 --- !u!1 &2086675191
 GameObject:
   m_ObjectHideFlags: 0
