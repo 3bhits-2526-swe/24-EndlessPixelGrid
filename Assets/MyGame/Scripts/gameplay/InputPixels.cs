@@ -15,11 +15,11 @@ public class InputPixels : MonoBehaviour
 
     private void Update()
     {
-        HandleInput();
-        EnterInputs();
+        HandlePixelInputs();
+        HandleSpecialInputs();
     }
 
-    private void HandleInput()
+    private void HandlePixelInputs()
     {
         bool changed = false;
         if (Input.GetKeyDown(KeyCode.W)) { inputPixels[0].GetComponent<PixelState>().isOn = !inputPixels[0].GetComponent<PixelState>().isOn; changed = true; }
@@ -33,10 +33,12 @@ public class InputPixels : MonoBehaviour
         if (changed) RenderInputLine();
     }
 
-    private void EnterInputs()
+    private void HandleSpecialInputs()
     {
         if (Input.GetKeyDown(KeyCode.D))
             PushArray();
+        if (Input.GetKeyDown(KeyCode.G))
+            ResetGrid();
     }
 
     public void PushArray()
@@ -56,6 +58,22 @@ public class InputPixels : MonoBehaviour
         {
             displayGrid[i, rows - 1].GetComponent<PixelState>().isOn = inputPixels[i].GetComponent<PixelState>().isOn;
             inputPixels[i].GetComponent<PixelState>().isOn = false;
+        }
+
+        RenderGrid();
+        RenderInputLine();
+    }
+
+    public void ResetGrid()
+    {
+        foreach (GameObject go in displayGrid)
+        {
+            go.GetComponent<PixelState>().isOn = false;
+        }
+
+        foreach (GameObject go in inputPixels)
+        {
+            go.GetComponent<PixelState>().isOn = false;
         }
 
         RenderGrid();
