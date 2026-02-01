@@ -21,13 +21,16 @@ public class InputPixels : MonoBehaviour
 
     private void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.W)) inputPixels[0].GetComponent<PixelState>().Switch();
-        if (Input.GetKeyDown(KeyCode.A)) inputPixels[1].GetComponent<PixelState>().Switch();
-        if (Input.GetKeyDown(KeyCode.UpArrow)) inputPixels[2].GetComponent<PixelState>().Switch();
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) inputPixels[3].GetComponent<PixelState>().Switch();
-        if (Input.GetKeyDown(KeyCode.RightArrow)) inputPixels[4].GetComponent<PixelState>().Switch();
-        if (Input.GetKeyDown(KeyCode.DownArrow)) inputPixels[5].GetComponent<PixelState>().Switch();
-        if (Input.GetKeyDown(KeyCode.S)) inputPixels[6].GetComponent<PixelState>().Switch();
+        bool changed = false;
+        if (Input.GetKeyDown(KeyCode.W)) { inputPixels[0].GetComponent<PixelState>().isOn = !inputPixels[0].GetComponent<PixelState>().isOn; changed = true; }
+        if (Input.GetKeyDown(KeyCode.A)) { inputPixels[1].GetComponent<PixelState>().isOn = !inputPixels[1].GetComponent<PixelState>().isOn; changed = true; }
+        if (Input.GetKeyDown(KeyCode.UpArrow)) { inputPixels[2].GetComponent<PixelState>().isOn = !inputPixels[2].GetComponent<PixelState>().isOn; changed = true; }
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) { inputPixels[3].GetComponent<PixelState>().isOn = !inputPixels[3].GetComponent<PixelState>().isOn; changed = true; }
+        if (Input.GetKeyDown(KeyCode.RightArrow)) { inputPixels[4].GetComponent<PixelState>().isOn = !inputPixels[4].GetComponent<PixelState>().isOn; changed = true; }
+        if (Input.GetKeyDown(KeyCode.DownArrow)) { inputPixels[5].GetComponent<PixelState>().isOn = !inputPixels[5].GetComponent<PixelState>().isOn; changed = true; }
+        if (Input.GetKeyDown(KeyCode.S)) { inputPixels[6].GetComponent<PixelState>().isOn = !inputPixels[6].GetComponent<PixelState>().isOn; changed = true; }
+
+        if (changed) RenderInputLine();
     }
 
     private void EnterInputs()
@@ -38,24 +41,40 @@ public class InputPixels : MonoBehaviour
 
     public void PushArray()
     {
-        int cols = displayGrid.GetLength(0); 
-        int rows = displayGrid.GetLength(1); 
+        int cols = displayGrid.GetLength(0);
+        int rows = displayGrid.GetLength(1);
 
         for (int j = 1; j < rows; j++)
         {
             for (int i = 0; i < cols; i++)
             {
-                bool valueBelow = displayGrid[i, j].GetComponent<PixelState>().isOn;
-                displayGrid[i, j - 1].GetComponent<PixelState>().SwitchTo(valueBelow);
+                displayGrid[i, j - 1].GetComponent<PixelState>().isOn = displayGrid[i, j].GetComponent<PixelState>().isOn;
             }
         }
 
         for (int i = 0; i < cols; i++)
         {
-            PixelState inputState = inputPixels[i].GetComponent<PixelState>();
+            displayGrid[i, rows - 1].GetComponent<PixelState>().isOn = inputPixels[i].GetComponent<PixelState>().isOn;
+            inputPixels[i].GetComponent<PixelState>().isOn = false;
+        }
 
-            displayGrid[i, rows - 1].GetComponent<PixelState>().SwitchTo(inputState.isOn);
-            inputState.Disable();
+        RenderGrid();
+        RenderInputLine();
+    }
+
+    private void RenderGrid()
+    {
+        foreach (GameObject go in displayGrid)
+        {
+            go.GetComponent<PixelState>().UpdatePixel();
+        }
+    }
+
+    private void RenderInputLine()
+    {
+        foreach (GameObject go in inputPixels)
+        {
+            go.GetComponent<PixelState>().UpdatePixel();
         }
     }
 }
