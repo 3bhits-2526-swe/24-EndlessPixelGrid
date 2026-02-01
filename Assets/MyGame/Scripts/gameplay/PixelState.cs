@@ -21,8 +21,13 @@ public class PixelState : MonoBehaviour
         isOn = !isOn;
         UpdatePixel();
     }
+    internal void SwitchTo(bool value)
+    {
+        isOn = value;
+        UpdatePixel();
+    }
 
-    private void UpdatePixel()
+    internal void UpdatePixel()
     {
         if (isOn) GetComponent<Image>().color = UnityEngine.Color.white;
         else GetComponent<Image>().color = UnityEngine.Color.black;
