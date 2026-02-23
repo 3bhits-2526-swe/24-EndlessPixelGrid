@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InputPixels : MonoBehaviour
+private class InputPixels : MonoBehaviour
 {
     private GameObject[,] displayGrid;
     private GameObject[] inputPixels = new GameObject[7];
@@ -13,15 +13,13 @@ public class InputPixels : MonoBehaviour
             inputPixels[i] = inputPixelsPixelStates[i].gameObject;
     }
 
-    private void Update()
-    {
+    private void Update() =>
         HandlePixelInputs();
-        HandleSpecialInputs();
-    }
 
     private void HandlePixelInputs()
     {
         bool changed = false;
+
         if (Input.GetKeyDown(KeyCode.W)) { inputPixels[0].GetComponent<PixelState>().isOn = !inputPixels[0].GetComponent<PixelState>().isOn; changed = true; }
         if (Input.GetKeyDown(KeyCode.A)) { inputPixels[1].GetComponent<PixelState>().isOn = !inputPixels[1].GetComponent<PixelState>().isOn; changed = true; }
         if (Input.GetKeyDown(KeyCode.UpArrow)) { inputPixels[2].GetComponent<PixelState>().isOn = !inputPixels[2].GetComponent<PixelState>().isOn; changed = true; }
@@ -32,6 +30,15 @@ public class InputPixels : MonoBehaviour
 
         if (changed) RenderInputLine();
     }
+
+    //private void CheckButtonInput(KeyCode[] keys, )
+    //{
+    //    int index = 0;
+    //    foreach (KeyCode key in keys)
+    //    {
+    //        index
+    //    if (Input.GetKeyDown(key)) { inputPixels[index].GetComponent<PixelState>().isOn = !inputPixels[0].GetComponent<PixelState>().isOn; changed = true; }
+    //}
 
     private void HandleSpecialInputs()
     {
@@ -49,9 +56,7 @@ public class InputPixels : MonoBehaviour
         for (int j = 1; j < rows; j++)
         {
             for (int i = 0; i < cols; i++)
-            {
-                displayGrid[i, j - 1].GetComponent<PixelState>().isOn = displayGrid[i, j].GetComponent<PixelState>().isOn;
-            }
+                displayGrid[i, j - 1].GetComponent<PixelState>().isOn = !displayGrid[i, j].GetComponent<PixelState>().isOn;
         }
 
         for (int i = 0; i < cols; i++)
@@ -67,14 +72,10 @@ public class InputPixels : MonoBehaviour
     public void ResetGrid()
     {
         foreach (GameObject go in displayGrid)
-        {
             go.GetComponent<PixelState>().isOn = false;
-        }
 
         foreach (GameObject go in inputPixels)
-        {
             go.GetComponent<PixelState>().isOn = false;
-        }
 
         RenderGrid();
         RenderInputLine();
@@ -82,17 +83,13 @@ public class InputPixels : MonoBehaviour
 
     private void RenderGrid()
     {
-        foreach (GameObject go in displayGrid)
-        {
-            go.GetComponent<PixelState>().UpdatePixel();
-        }
+        //foreach (GameObject go in displayGrid)
+        //    go.GetComponent<PixelState>().UpdatePixel();
     }
 
     private void RenderInputLine()
     {
         foreach (GameObject go in inputPixels)
-        {
             go.GetComponent<PixelState>().UpdatePixel();
-        }
     }
 }
